@@ -6,6 +6,7 @@ import TaskSelectionSection from './sections/TaskSelectionSection'
 import ProgressSection from './sections/ProgressSection'
 import ResultsSection from './sections/ResultsSection'
 import SectionTransition from './components/SectionTransition'
+import PasswordGate from './components/PasswordGate'
 
 export type Modality = 'fmri' | 'eeg' | 'visual' | null
 
@@ -65,6 +66,7 @@ function App() {
   }, [])
 
   return (
+    <PasswordGate>
     <main className="overflow-x-hidden">
       <HeroSection />
       <SectionTransition from="dark" to="light" />
@@ -96,6 +98,7 @@ function App() {
         </p>
       </footer>
     </main>
+    </PasswordGate>
   )
 }
 
