@@ -1,4 +1,8 @@
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
+
+interface Props {
+  selectedModel: string | null
+}
 
 const models = [
   {
@@ -27,28 +31,33 @@ const models = [
   },
 ]
 
-const colorMap: Record<string, { border: string; bg: string; tag: string; glow: string }> = {
+const colorMap: Record<string, { border: string; bg: string; tag: string; glow: string; activeBg: string }> = {
   blue: {
     border: 'border-blue-500',
     bg: 'bg-blue-500/5',
     tag: 'bg-blue-100 text-blue-700',
-    glow: 'shadow-blue-500/20',
+    glow: 'shadow-blue-500/25',
+    activeBg: 'bg-blue-50',
   },
   emerald: {
     border: 'border-emerald-500',
     bg: 'bg-emerald-500/5',
     tag: 'bg-emerald-100 text-emerald-700',
-    glow: 'shadow-emerald-500/20',
+    glow: 'shadow-emerald-500/25',
+    activeBg: 'bg-emerald-50',
   },
   purple: {
     border: 'border-purple-500',
     bg: 'bg-purple-500/5',
     tag: 'bg-purple-100 text-purple-700',
-    glow: 'shadow-purple-500/20',
+    glow: 'shadow-purple-500/25',
+    activeBg: 'bg-purple-50',
   },
 }
 
-export default function ModelSelectionSection() {
+export default function ModelSelectionSection({ selectedModel }: Props) {
+  const hasSelection = selectedModel !== null
+
   return (
     <section className="min-h-screen flex items-center justify-center bg-section-bg py-24 px-6">
       <div className="max-w-6xl w-full">
@@ -67,14 +76,23 @@ export default function ModelSelectionSection() {
           <p className="text-text-secondary text-lg mb-4 max-w-2xl">
             The appropriate model is automatically selected based on the detected data modality.
           </p>
-          {/* Flow indicator */}
+
+          {/* Status indicator */}
           <div className="flex items-center gap-3 mb-12">
-            <span className="px-3 py-1.5 bg-section-accent/10 text-section-accent font-mono text-xs rounded-lg">
-              Data Modality
+            <span className={`px-3 py-1.5 font-mono text-xs rounded-lg transition-colors ${
+              hasSelection
+                ? 'bg-success/10 text-success'
+                : 'bg-section-accent/10 text-section-accent'
+            }`}>
+              {hasSelection ? '✓ Data Modality Detected' : '⏳ Waiting for data upload'}
             </span>
             <span className="text-text-secondary">→</span>
-            <span className="px-3 py-1.5 bg-section-accent/10 text-section-accent font-mono text-xs rounded-lg">
-              Auto-Select Model
+            <span className={`px-3 py-1.5 font-mono text-xs rounded-lg transition-colors ${
+              hasSelection
+                ? 'bg-success/10 text-success'
+                : 'bg-gray-100 text-text-secondary'
+            }`}>
+              {hasSelection ? `✓ ${selectedModel} Auto-Selected` : 'Auto-Select Model'}
             </span>
           </div>
         </motion.div>
@@ -82,6 +100,9 @@ export default function ModelSelectionSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {models.map((model, i) => {
             const c = colorMap[model.color]
+            const isActive = selectedModel === model.name
+            const isDimmed = hasSelection && !isActive
+
             return (
               <motion.div
                 key={model.name}
@@ -89,9 +110,33 @@ export default function ModelSelectionSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-100px' }}
                 transition={{ duration: 0.5, delay: i * 0.15 }}
-                whileHover={{ y: -8, transition: { duration: 0.2 } }}
-                className={`relative border-t-4 ${c.border} ${c.bg} rounded-2xl p-8 hover:shadow-xl ${c.glow} transition-shadow cursor-default`}
+                animate={{
+                  scale: isActive ? 1.05 : isDimmed ? 0.95 : 1,
+                  opacity: isDimmed ? 0.4 : 1,
+                }}
+                whileHover={!isDimmed ? { y: -8, transition: { duration: 0.2 } } : {}}
+                className={`relative border-t-4 ${c.border} rounded-2xl p-8 transition-all duration-500 cursor-default ${
+                  isActive
+                    ? `${c.activeBg} shadow-xl ${c.glow} ring-2 ring-offset-2 ${c.border.replace('border', 'ring')}`
+                    : isDimmed
+                      ? 'bg-gray-50 grayscale'
+                      : `${c.bg} hover:shadow-xl ${c.glow}`
+                }`}
               >
+                {/* Active badge */}
+                <AnimatePresence>
+                  {isActive && (
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0 }}
+                      className="absolute -top-3 -right-3 w-8 h-8 bg-success rounded-full flex items-center justify-center shadow-lg"
+                    >
+                      <span className="text-white text-sm font-bold">✓</span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
                 <div className="text-4xl mb-4">{model.icon}</div>
                 <h3 className="text-2xl font-bold text-text-primary mb-1">{model.name}</h3>
                 <p className={`font-mono text-sm mb-4 ${c.border.replace('border', 'text')}`}>

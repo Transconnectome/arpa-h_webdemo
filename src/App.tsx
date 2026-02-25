@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import HeroSection from './sections/HeroSection'
 import DataUploadSection from './sections/DataUploadSection'
 import ModelSelectionSection from './sections/ModelSelectionSection'
@@ -6,13 +7,28 @@ import ProgressSection from './sections/ProgressSection'
 import ResultsSection from './sections/ResultsSection'
 import SectionTransition from './components/SectionTransition'
 
+export type Modality = 'fmri' | 'eeg' | 'visual' | null
+
+/** Map modality → foundation model name */
+export function getModelForModality(modality: Modality): string | null {
+  switch (modality) {
+    case 'fmri': return 'SWIFT'
+    case 'eeg': return 'DIVER'
+    case 'visual': return 'VLM'
+    default: return null
+  }
+}
+
 function App() {
+  const [modality, setModality] = useState<Modality>(null)
+  const selectedModel = getModelForModality(modality)
+
   return (
     <main className="overflow-x-hidden">
       <HeroSection />
       <SectionTransition from="dark" to="light" />
-      <DataUploadSection />
-      <ModelSelectionSection />
+      <DataUploadSection modality={modality} onModalityChange={setModality} />
+      <ModelSelectionSection selectedModel={selectedModel} />
       <TaskSelectionSection />
       <SectionTransition from="light" to="dark" />
       <ProgressSection />

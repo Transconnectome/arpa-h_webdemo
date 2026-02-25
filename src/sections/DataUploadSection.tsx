@@ -1,17 +1,20 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import type { Modality } from '../App'
 
-type Modality = 'fmri' | 'eeg' | null
+interface Props {
+  modality: Modality
+  onModalityChange: (m: Modality) => void
+}
 
 interface DetectedFile {
   name: string
-  modality: Modality
   icon: string
 }
 
 const sampleFiles: Record<string, DetectedFile> = {
-  fmri: { name: 'sub-001_bold.nii.gz', modality: 'fmri', icon: '🧠' },
-  eeg: { name: 'sub-001_eeg.set', modality: 'eeg', icon: '⚡' },
+  fmri: { name: 'sub-001_bold.nii.gz', icon: '🧠' },
+  eeg: { name: 'sub-001_eeg.set', icon: '⚡' },
 }
 
 const modalityConfig = {
@@ -21,7 +24,6 @@ const modalityConfig = {
     bg: 'bg-blue-500/10',
     border: 'border-blue-500/40',
     description: 'Functional magnetic resonance imaging — BOLD signal',
-    extensions: ['.nii', '.nii.gz'],
   },
   eeg: {
     label: 'EEG / iEEG Detected',
@@ -29,21 +31,23 @@ const modalityConfig = {
     bg: 'bg-emerald-500/10',
     border: 'border-emerald-500/40',
     description: 'Electrophysiological brain signals',
-    extensions: ['.edf', '.set', '.fif', '.bdf'],
   },
 }
 
-export default function DataUploadSection() {
-  const [detected, setDetected] = useState<Modality>(null)
+export default function DataUploadSection({ modality, onModalityChange }: Props) {
   const [isScanning, setIsScanning] = useState(false)
 
   const handleSelect = (type: 'fmri' | 'eeg') => {
-    setDetected(null)
+    onModalityChange(null)
     setIsScanning(true)
     setTimeout(() => {
       setIsScanning(false)
-      setDetected(type)
+      onModalityChange(type)
     }, 1500)
+  }
+
+  const handleReset = () => {
+    onModalityChange(null)
   }
 
   return (
@@ -76,8 +80,8 @@ export default function DataUploadSection() {
           className={`relative border-2 border-dashed rounded-2xl p-12 text-center transition-all duration-300 ${
             isScanning
               ? 'border-hero-accent bg-hero-accent/5'
-              : detected
-                ? `${modalityConfig[detected].border} ${modalityConfig[detected].bg}`
+              : modality && modality in modalityConfig
+                ? `${modalityConfig[modality as keyof typeof modalityConfig].border} ${modalityConfig[modality as keyof typeof modalityConfig].bg}`
                 : 'border-border hover:border-section-accent'
           }`}
         >
@@ -95,7 +99,7 @@ export default function DataUploadSection() {
           </AnimatePresence>
 
           <AnimatePresence mode="wait">
-            {!detected && !isScanning && (
+            {!modality && !isScanning && (
               <motion.div
                 key="upload"
                 initial={{ opacity: 0 }}
@@ -143,28 +147,28 @@ export default function DataUploadSection() {
               </motion.div>
             )}
 
-            {detected && !isScanning && (
+            {modality && !isScanning && modality in sampleFiles && (
               <motion.div
                 key="detected"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ type: 'spring', damping: 20 }}
               >
-                <div className="text-5xl mb-4">{sampleFiles[detected].icon}</div>
-                <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${modalityConfig[detected].bg} ${modalityConfig[detected].border} border mb-4`}>
+                <div className="text-5xl mb-4">{sampleFiles[modality].icon}</div>
+                <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${modalityConfig[modality as keyof typeof modalityConfig].bg} ${modalityConfig[modality as keyof typeof modalityConfig].border} border mb-4`}>
                   <span className="w-2 h-2 bg-current rounded-full animate-pulse" />
-                  <span className={`font-mono text-sm font-semibold ${modalityConfig[detected].color}`}>
-                    {modalityConfig[detected].label}
+                  <span className={`font-mono text-sm font-semibold ${modalityConfig[modality as keyof typeof modalityConfig].color}`}>
+                    {modalityConfig[modality as keyof typeof modalityConfig].label}
                   </span>
                 </div>
                 <p className="text-text-primary font-mono text-sm mb-1">
-                  {sampleFiles[detected].name}
+                  {sampleFiles[modality].name}
                 </p>
                 <p className="text-text-secondary text-sm">
-                  {modalityConfig[detected].description}
+                  {modalityConfig[modality as keyof typeof modalityConfig].description}
                 </p>
                 <button
-                  onClick={() => setDetected(null)}
+                  onClick={handleReset}
                   className="mt-6 text-text-secondary text-sm hover:text-section-accent transition-colors cursor-pointer underline"
                 >
                   Reset & try another
