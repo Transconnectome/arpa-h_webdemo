@@ -65,7 +65,7 @@ export default function DataUploadSection({ modality, onModalityChange }: Props)
           <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-4">
             Data Upload
           </h2>
-          <p className="text-text-secondary text-lg mb-12 max-w-2xl">
+          <p className="text-text-secondary text-lg mb-12 max-w-3xl">
             Upload subject brain data. The system automatically identifies the data modality
             based on file extension.
           </p>

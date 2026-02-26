@@ -8,32 +8,32 @@ interface Props {
 
 const tasks = [
   {
-    id: 'mci-ad',
-    label: 'MCI → AD Conversion',
-    description: 'Predict probability of progression from Mild Cognitive Impairment to Alzheimer\'s Disease',
+    id: 'hc-mci',
+    label: 'MCI Diagnosis and Conversion',
+    description: '정상 인지 기능에서 경도인지장애로의 전환 확률을 예측하거나, 현 시점의 인지 상태(정상/MCI)를 판별합니다',
     icon: '🔮',
-    category: 'Prognosis',
+    categories: ['Diagnosis', 'Prognosis'],
   },
   {
     id: 'mdd-dx',
     label: 'MDD Diagnosis',
-    description: 'Major Depressive Disorder detection and severity classification',
+    description: '뇌 활동 패턴을 기반으로 주요우울장애(MDD)를 탐지하고 중증도를 분류합니다',
     icon: '🩺',
-    category: 'Diagnosis',
+    categories: ['Diagnosis'],
   },
   {
     id: 'ocd-dx',
     label: 'OCD Diagnosis',
-    description: 'Obsessive-Compulsive Disorder identification from brain activity patterns',
+    description: '뇌 활동 패턴에서 강박장애(OCD) 관련 신경 특성을 식별하고 판별합니다',
     icon: '🩺',
-    category: 'Diagnosis',
+    categories: ['Diagnosis'],
   },
   {
     id: 'treatment',
     label: 'Treatment Response',
-    description: 'Predict individual treatment response rate for pharmacological or neuromodulation therapy',
+    description: '약물 치료 또는 뇌자극 치료에 대한 개인별 반응률을 예측합니다',
     icon: '💊',
-    category: 'Prediction',
+    categories: ['Prediction'],
   },
 ]
 
@@ -70,7 +70,7 @@ export default function TaskSelectionSection({ enabled, selectedTask, onTaskChan
           <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-4">
             Task Selection
           </h2>
-          <p className="text-text-secondary text-lg mb-12 max-w-2xl">
+          <p className="text-text-secondary text-lg mb-12 max-w-3xl">
             Select a clinical prediction task for the uploaded subject data.
           </p>
         </motion.div>
@@ -95,17 +95,19 @@ export default function TaskSelectionSection({ enabled, selectedTask, onTaskChan
             >
               <span className="text-3xl mt-0.5 shrink-0">{task.icon}</span>
               <div>
-                <div className="flex items-center gap-2 mb-1.5">
-                  <span className="font-bold text-lg">
-                    {task.label}
-                  </span>
-                  <span className={`px-2 py-0.5 rounded-full text-xs font-mono ${
-                    selectedTask === task.id
-                      ? 'bg-white/20 text-white'
-                      : 'bg-section-accent/10 text-section-accent'
-                  }`}>
-                    {task.category}
-                  </span>
+                <span className="font-bold text-lg">
+                  {task.label}
+                </span>
+                <div className="flex gap-1.5 mt-1 mb-1.5">
+                  {task.categories.map((cat) => (
+                    <span key={cat} className={`px-2 py-0.5 rounded-full text-xs font-mono ${
+                      selectedTask === task.id
+                        ? 'bg-white/20 text-white'
+                        : 'bg-section-accent/10 text-section-accent'
+                    }`}>
+                      {cat}
+                    </span>
+                  ))}
                 </div>
                 <p className={`text-sm leading-relaxed ${
                   selectedTask === task.id ? 'text-white/80' : 'text-text-secondary'

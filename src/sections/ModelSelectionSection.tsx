@@ -73,7 +73,7 @@ export default function ModelSelectionSection({ selectedModel }: Props) {
           <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-4">
             Foundation Model Selection
           </h2>
-          <p className="text-text-secondary text-lg mb-4 max-w-2xl">
+          <p className="text-text-secondary text-lg mb-4 max-w-3xl">
             The appropriate model is automatically selected based on the detected data modality.
           </p>
 
