@@ -1,0 +1,428 @@
+/* ============================================
+   SwiftDemo.css — Dark Theme Keyframes & 3D
+   ============================================ */
+
+/* --- Pillar Ring Glow (Scene 0) --- */
+@keyframes ringGlow {
+  0% {
+    transform: translateY(-50%) rotateX(70deg) scale(0.6);
+    border-color: rgba(0, 212, 255, 0.3);
+  }
+  50% {
+    border-color: rgba(0, 212, 255, 1);
+    box-shadow: 0 0 30px rgba(0, 212, 255, 1), inset 0 0 20px rgba(0, 212, 255, 0.8);
+  }
+  100% {
+    transform: translateY(-50%) rotateX(70deg) scale(1.4);
+    border-color: rgba(0, 212, 255, 0);
+  }
+}
+
+@keyframes ringGlowOrange {
+  0% {
+    transform: translateY(-50%) rotateX(70deg) scale(0.6);
+    border-color: rgba(255, 169, 77, 0.3);
+  }
+  50% {
+    border-color: rgba(255, 169, 77, 1);
+    box-shadow: 0 0 30px rgba(255, 169, 77, 1), inset 0 0 20px rgba(255, 169, 77, 0.8);
+  }
+  100% {
+    transform: translateY(-50%) rotateX(70deg) scale(1.4);
+    border-color: rgba(255, 169, 77, 0);
+  }
+}
+
+@keyframes ringGlowGreen {
+  0% {
+    transform: translateY(-50%) rotateX(70deg) scale(0.6);
+    border-color: rgba(99, 230, 190, 0.3);
+  }
+  50% {
+    border-color: rgba(99, 230, 190, 1);
+    box-shadow: 0 0 30px rgba(99, 230, 190, 1), inset 0 0 20px rgba(99, 230, 190, 0.8);
+  }
+  100% {
+    transform: translateY(-50%) rotateX(70deg) scale(1.4);
+    border-color: rgba(99, 230, 190, 0);
+  }
+}
+
+/* --- MLP Edge Flow (Scene 4) --- */
+@keyframes flowEdge {
+  0% {
+    stroke-dashoffset: 1000;
+    stroke: #ce93d8;
+    opacity: 0.2;
+  }
+  50% {
+    stroke: #ab47bc;
+    opacity: 0.8;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    stroke: #ce93d8;
+    opacity: 0.4;
+  }
+}
+
+@keyframes glowNode {
+  0% {
+    fill: rgba(255, 255, 255, 0.1);
+    filter: drop-shadow(0 0 0px rgba(171, 71, 188, 0));
+  }
+  50% {
+    fill: rgba(171, 71, 188, 0.3);
+    filter: drop-shadow(0 0 8px rgba(171, 71, 188, 0.8));
+  }
+  100% {
+    fill: rgba(255, 255, 255, 0.1);
+    filter: drop-shadow(0 0 2px rgba(171, 71, 188, 0.4));
+  }
+}
+
+@keyframes glowNodeTarget {
+  0% {
+    fill: rgba(255, 255, 255, 0.1);
+    filter: drop-shadow(0 0 0px rgba(106, 27, 154, 0));
+  }
+  100% {
+    fill: #6a1b9a;
+    stroke: #4a148c;
+    filter: drop-shadow(0 0 12px rgba(106, 27, 154, 0.9));
+  }
+}
+
+@keyframes fadeInText {
+  0% {
+    opacity: 0;
+    transform: translateX(-5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* --- Latent Morph (Scene 4) --- */
+@keyframes morphAndMove {
+  0% {
+    transform: rotateX(60deg) rotateZ(-45deg) translateZ(20px) translate3d(200px, -200px, 0) scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: rotateX(60deg) rotateZ(-45deg) translateZ(20px);
+    opacity: 1;
+  }
+}
+
+/* --- Isometric Block 3D Styles --- */
+.iso-block {
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(60deg) rotateZ(-45deg);
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.4s, opacity 0.6s;
+  filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.3));
+}
+
+.iso-block.active {
+  filter: drop-shadow(0 20px 15px rgba(0, 212, 255, 0.15));
+  transform: rotateX(60deg) rotateZ(-45deg) translateZ(20px);
+}
+
+.iso-face {
+  position: absolute;
+  border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+/* Top face */
+.iso-face.top {
+  background: #1a1f3d;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #9CA3AF;
+}
+
+.iso-block.active .iso-face.top {
+  background: #1e2448;
+  border-color: rgba(0, 212, 255, 0.4);
+  color: #00D4FF;
+}
+
+/* Left face */
+.iso-face.left {
+  background: #131736;
+  transform-origin: top left;
+}
+
+/* Right face */
+.iso-face.right {
+  background: #0f1230;
+  transform-origin: top left;
+}
+
+/* Base block sizing (120x120) */
+.iso-base {
+  width: 120px;
+  height: 120px;
+}
+
+.iso-base .iso-face.top {
+  width: 120px;
+  height: 120px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 15px;
+}
+
+.iso-base .iso-face.left {
+  width: 40px;
+  height: 120px;
+  transform: rotateY(90deg) rotateZ(-90deg) translateZ(-120px) translateX(-40px);
+}
+
+.iso-base .iso-face.right {
+  width: 120px;
+  height: 40px;
+  transform: rotateX(-90deg) translateY(-40px);
+}
+
+/* Stage block sizing (140x140) */
+.iso-stage {
+  width: 140px;
+  height: 140px;
+}
+
+.iso-stage .iso-face.top {
+  width: 140px;
+  height: 140px;
+  font-size: 0.8rem;
+  padding: 15px;
+}
+
+.iso-stage .iso-face.left {
+  width: 50px;
+  height: 140px;
+  transform: rotateY(90deg) rotateZ(-90deg) translateZ(-140px) translateX(-50px);
+}
+
+.iso-stage .iso-face.right {
+  width: 140px;
+  height: 50px;
+  transform: rotateX(-90deg) translateY(-50px);
+}
+
+/* Latent block sizing */
+.iso-latent {
+  width: 160px;
+  height: 90px;
+}
+
+.iso-latent .iso-face.top {
+  width: 160px;
+  height: 90px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.iso-latent .iso-face.left {
+  width: 30px;
+  height: 90px;
+  transform: rotateY(90deg) rotateZ(-90deg) translateZ(-90px) translateX(-30px);
+}
+
+.iso-latent .iso-face.right {
+  width: 160px;
+  height: 30px;
+  transform: rotateX(-90deg) translateY(-30px);
+}
+
+.iso-latent.morphing {
+  animation: morphAndMove 2s ease-in-out forwards;
+}
+
+/* MLP head block (flat, no 3D) */
+.iso-head {
+  width: 500px;
+  height: 180px;
+  transform-style: flat;
+  transform: none !important;
+  filter: none !important;
+}
+
+.iso-head .iso-face.top {
+  width: 500px;
+  height: 180px;
+  background: transparent;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+}
+
+.iso-head.active .iso-face.top {
+  background: transparent;
+  border: none;
+}
+
+.iso-head .iso-face.left,
+.iso-head .iso-face.right {
+  display: none;
+}
+
+/* --- MLP SVG Active Animations --- */
+.mlp-edges line {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+}
+
+.iso-head.active .mlp-edges line {
+  animation: flowEdge 1.5s ease-in-out forwards;
+}
+
+/* Staggered delays by layer */
+.iso-head.active .mlp-edges line:nth-child(-n+30) {
+  animation-delay: 0.5s;
+}
+
+.iso-head.active .mlp-edges line:nth-child(n+31):nth-child(-n+54) {
+  animation-delay: 1.5s;
+}
+
+.iso-head.active .mlp-edges line:nth-child(n+55) {
+  animation-delay: 2.5s;
+}
+
+.iso-head.active .input-layer circle {
+  animation: glowNode 1s ease-in-out forwards;
+  animation-delay: 0.2s;
+}
+
+.iso-head.active .hidden-layer circle {
+  animation: glowNode 1s ease-in-out forwards;
+  animation-delay: 1.2s;
+}
+
+.iso-head.active .hidden-layer-2 circle {
+  animation: glowNode 1s ease-in-out forwards;
+  animation-delay: 2.2s;
+}
+
+.iso-head.active .output-layer circle.out-node:first-child {
+  animation: glowNodeTarget 1s ease-in-out forwards;
+  animation-delay: 3.2s;
+}
+
+.out-label {
+  opacity: 0;
+}
+
+.iso-head.active .hc-label {
+  opacity: 0.5;
+  transition: opacity 1s;
+  transition-delay: 3.0s;
+}
+
+.iso-head.active .mci-label {
+  animation: fadeInText 1s ease-in-out forwards;
+  animation-delay: 3.6s;
+}
+
+/* --- Pillar styles (Scene 0) --- */
+.pillar-core {
+  width: 60px;
+  height: 160px;
+  border-radius: 8px;
+  position: relative;
+  z-index: 2;
+}
+
+.pillar-core::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.pillar-core::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.pillar-core.blue {
+  background: linear-gradient(180deg, #4dabf7 0%, #1971c2 100%);
+  box-shadow: 0 0 30px rgba(77, 171, 247, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.pillar-core.blue::before {
+  background: #a5d8ff;
+}
+
+.pillar-core.blue::after {
+  background: #1864ab;
+}
+
+.pillar-core.orange {
+  background: linear-gradient(180deg, #fd7e14 0%, #d9480f 100%);
+  box-shadow: 0 0 30px rgba(253, 126, 20, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.pillar-core.orange::before {
+  background: #ffc078;
+}
+
+.pillar-core.orange::after {
+  background: #c2410c;
+}
+
+.pillar-core.green {
+  background: linear-gradient(180deg, #20c997 0%, #08a081 100%);
+  box-shadow: 0 0 30px rgba(32, 201, 151, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.pillar-core.green::before {
+  background: #96f2d7;
+}
+
+.pillar-core.green::after {
+  background: #087f5b;
+}
+
+.pillar-rings {
+  width: 120px;
+  height: 30px;
+  border: 3px solid #74c0fc;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) rotateX(70deg);
+  z-index: 1;
+}
+
+.pillar-rings.blue {
+  border-color: #74c0fc;
+  box-shadow: 0 0 20px rgba(116, 192, 252, 0.8), inset 0 0 10px rgba(116, 192, 252, 0.5);
+  animation: ringGlow 3s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pillar-rings.orange {
+  border-color: #ffa94d;
+  box-shadow: 0 0 20px rgba(255, 169, 77, 0.8), inset 0 0 10px rgba(255, 169, 77, 0.5);
+  animation: ringGlowOrange 3s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pillar-rings.green {
+  border-color: #63e6be;
+  box-shadow: 0 0 20px rgba(99, 230, 190, 0.8), inset 0 0 10px rgba(99, 230, 190, 0.5);
+  animation: ringGlowGreen 3s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}

@@ -51,7 +51,7 @@ export default function DataUploadSection({ modality, onModalityChange }: Props)
   }
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-section-bg py-24 px-6">
+    <section id="data-upload" className="min-h-screen flex items-center justify-center bg-section-bg py-24 px-6">
       <div className="max-w-4xl w-full">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
