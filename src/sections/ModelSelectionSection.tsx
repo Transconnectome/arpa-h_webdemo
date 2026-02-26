@@ -59,7 +59,7 @@ export default function ModelSelectionSection({ selectedModel }: Props) {
   const hasSelection = selectedModel !== null
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-section-bg py-24 px-6">
+    <section id="model-selection" className="min-h-screen flex items-center justify-center bg-section-bg py-24 px-6">
       <div className="max-w-6xl w-full">
         <motion.div
           initial={{ opacity: 0, y: 40 }}

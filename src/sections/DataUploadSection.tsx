@@ -43,6 +43,9 @@ export default function DataUploadSection({ modality, onModalityChange }: Props)
     setTimeout(() => {
       setIsScanning(false)
       onModalityChange(type)
+      setTimeout(() => {
+        document.getElementById('model-selection')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 400)
     }, 1500)
   }
 
